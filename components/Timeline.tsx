@@ -1,172 +1,161 @@
 "use client"
 
-import { useState } from "react"
-import { Calendar, Compass, GraduationCap, Laptop, Sparkles, Trophy } from "lucide-react"
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { ArrowLeft, Calendar, Compass, GraduationCap, Laptop, Sparkles } from "lucide-react"
 
 const timelineData = [
   {
-    title: "Prompt Engineering Intern & Hackathons",
-    subtitle: "Skylena Pvt. Ltd. & BIT Hackathon",
+    year: "2025",
+    title: "PROMPT ENGINEERING INTERN",
+    subtitle: "Skylena Pvt. Ltd. // visaithalam solutions",
     category: "Experience",
-    date: "2025",
     icon: Laptop,
-    color: "border-cyan-500 text-cyan-400 bg-cyan-500/10",
     details: [
-      "Working as a Prompt Engineering Intern at Skylena Pvt. Ltd., designing dynamic system instructions and API pipelines.",
-      "Participated and won a cash prize at the BIT HACKATHON 2025 for building intelligent prototypes.",
-      "Completed a specialized one-credit Prompt Engineering course organized by Visaithalam Solutions."
-    ],
+      "Working as a Prompt Engineering Intern at Skylena Pvt. Ltd., designing optimized instructions, API contexts, and RAG pipelines.",
+      "Completed a specialized one-credit Prompt Engineering course organized by Visaithalam Solutions.",
+      "Won a cash prize at the BIT HACKATHON 2025 for designing functional software prototypes."
+    ]
   },
   {
-    title: "Computer Science Engineering (B.E.)",
+    year: "2024",
+    title: "B.E. IN COMPUTER SCIENCE ENGINEERING",
     subtitle: "Dr NGP Institute Of Technology, Coimbatore",
     category: "Academic",
-    date: "2024 - Expected pass out 2028",
     icon: GraduationCap,
-    color: "border-blue-500 text-blue-400 bg-blue-500/10",
     details: [
-      "Pursuing a B.E. in Computer Science Engineering, maintaining a high-tier academic CGPA of 8.34 (till 4th sem).",
-      "Actively leading as a class leader, organizing academic schedules and student coordination channels.",
-      "Hands-on research implementing FAISS vector databases, sentence embedding indices, and RAG pipelines."
-    ],
+      "Pursuing a B.E. in Computer Science Engineering, maintaining a high-tier academic CGPA of 8.34 (active till 4th sem, expected pass out 2028).",
+      "Serving as a class leader, organizing academic schedules and student coordination channels.",
+      "Building practical AI systems including emotional feedback assistants, policy RAG chatbots, and search platforms."
+    ]
   },
   {
-    title: "AI & Vector Embeddings Certifications",
-    subtitle: "Coursera, Simplilearn & Visaithalam Solutions",
-    category: "Professional",
-    date: "2024 - 2025",
+    year: "2024",
+    title: "AI CERTIFICATIONS & TRAINING",
+    subtitle: "Coursera, Simplilearn & visaithalam solutions",
+    category: "Certifications",
     icon: Sparkles,
-    color: "border-purple-500 text-purple-400 bg-purple-500/10",
     details: [
-      "Completed certified courses on Retrieval-Augmented Generation, vector embeddings, and LLM weights optimization.",
-      "Practiced multi-dimensional text matching techniques using Sentence Transformers, FAISS, and custom prompt loops."
-    ],
+      "Completed certified courses on Retrieval-Augmented Generation, vector embeddings, and LLM orchestration.",
+      "Practiced similarity vector matching algorithms using Sentence Transformers and FAISS index stores."
+    ]
   },
   {
-    title: "Higher Secondary Education (HSC)",
+    year: "2022",
+    title: "HIGHER SECONDARY EDUCATION",
     subtitle: "GVT Higher Secondary School Arasur, Coimbatore",
-    category: "Academic",
-    date: "2022 - 2024",
+    category: "Schooling",
     icon: GraduationCap,
-    color: "border-emerald-500 text-emerald-400 bg-emerald-500/10",
     details: [
-      "Graduated with a score of 85.83% in Higher Secondary studies.",
+      "Graduated from Higher Secondary studies with a cumulative score of 85.83%.",
       "Active team player, participating as a secondary raider in the school's Kabaddi team."
-    ],
+    ]
   },
   {
-    title: "Secondary Education (SSLC)",
+    year: "2012",
+    title: "SECONDARY SCHOOLING",
     subtitle: "GVT High School Karugampalayam, Tirupur",
-    category: "Academic",
-    date: "2012 - 2022",
+    category: "Schooling",
     icon: GraduationCap,
-    color: "border-amber-500 text-amber-400 bg-amber-500/10",
     details: [
-      "Graduated with a score of 75.5% in secondary education.",
-      "Explored intermediate level rhythm padist musical activities and local competitions."
-    ],
-  },
+      "Graduated from Secondary Education with a cumulative score of 75.5%.",
+      "Explored music as an intermediate level rhythm padist in local youth competitions."
+    ]
+  }
 ]
 
 export default function Timeline() {
-  const [activeTab, setActiveTab] = useState("all")
+  const [mounted, setMounted] = useState(false)
 
-  const filteredData = timelineData.filter(
-    (item) => activeTab === "all" || item.category.toLowerCase() === activeTab.toLowerCase()
-  )
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
-    <section className="py-20 relative border-t border-slate-900 bg-slate-950/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="journey" className="py-24 relative z-10 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
         
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 text-xs font-semibold tracking-wider text-cyan-400 uppercase mb-3">
-            <Calendar className="w-4.5 h-4.5" />
-            <span>Roadmap</span>
-          </div>
-          <h2 className="font-poppins text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Timeline & Journey
+        {/* Back Navigation (Displays only if standalone page view) */}
+        <div
+          className={`mb-12 transition-all duration-700 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group font-mono text-xs uppercase tracking-wider"
+          >
+            <ArrowLeft className="mr-2 w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </Link>
+        </div>
+
+        {/* Section Heading */}
+        <div className={`mb-24 transition-all duration-1000 ${mounted ? "reveal-up" : "opacity-0"}`}>
+          <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-2">
+            05 // HISTORY
+          </span>
+          <h2 className="font-poppins text-4xl sm:text-6xl font-black text-[#F5F7FF] tracking-tight uppercase">
+            MY JOURNEY
           </h2>
-          <p className="text-slate-400 mt-2 max-w-xl mx-auto text-sm sm:text-base">
-            Tracing my professional evolution, key project launches, academic milestones, and certifications.
-          </p>
+          <div className="w-16 h-[2px] bg-blue-500 mt-4" />
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex justify-center space-x-2 sm:space-x-4 mb-12">
-          {["all", "experience", "academic", "professional"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-300 ${
-                activeTab === tab
-                  ? "bg-cyan-500/25 border border-cyan-500/50 text-cyan-300 shadow-md shadow-cyan-500/5"
-                  : "bg-slate-950/40 border border-slate-900 text-slate-500 hover:text-slate-300 hover:border-slate-800"
-              }`}
-            >
-              {tab.toUpperCase()}
-            </button>
-          ))}
-        </div>
+        {/* Asymmetric Editorial Timeline Grid */}
+        <div className="space-y-16 relative">
+          
+          {/* Vertical central bar (shifted left for clean asymmetric balance) */}
+          <div className="absolute left-6 lg:left-32 top-4 bottom-4 w-[1px] bg-slate-900" />
 
-        {/* Timeline Line & Cards */}
-        <div className="relative max-w-3xl mx-auto">
-          {/* Vertical central bar */}
-          <div className="absolute left-4 sm:left-1/2 top-2 bottom-2 w-[1px] bg-slate-900" />
-
-          <div className="space-y-12">
-            {filteredData.map((item, index) => {
-              const Icon = item.icon
-              const isEven = index % 2 === 0
-
-              return (
-                <div
-                  key={item.title}
-                  className={`relative flex flex-col sm:flex-row items-start ${
-                    isEven ? "sm:flex-row-reverse" : ""
-                  }`}
-                >
-                  {/* Timeline icon dot */}
-                  <div className="absolute left-4 sm:left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
-                    <div className={`p-2 rounded-full border bg-slate-950 shadow-lg ${item.color}`}>
-                      <Icon className="w-4 h-4" />
+          {timelineData.map((item, idx) => {
+            const Icon = item.icon
+            return (
+              <div
+                key={idx}
+                className={`grid lg:grid-cols-12 gap-8 items-start relative ${
+                  mounted ? "reveal-up" : "opacity-0"
+                }`}
+                style={{ animationDelay: `${idx * 120}ms` }}
+              >
+                
+                {/* Year display column */}
+                <div className="lg:col-span-3 flex lg:justify-end items-center pl-16 lg:pl-0 lg:pr-12 relative z-10">
+                  
+                  {/* Timeline icon node */}
+                  <div className="absolute left-6 lg:left-auto lg:-right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-none border border-slate-700 bg-[#05061A] text-slate-400 flex items-center justify-center">
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
                   </div>
 
-                  {/* Card Container */}
-                  <div className={`w-full sm:w-[calc(50%-2rem)] ml-12 sm:ml-0 ${isEven ? "sm:text-right sm:pr-8" : "sm:pl-8"}`}>
-                    <div className="holo-border-card hud-brackets text-left">
-                      <div className="holo-border-card-inner p-5 space-y-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-900/50 pb-2">
-                          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/5 px-2 py-0.5 rounded border border-cyan-500/10 uppercase tracking-widest">
-                            {item.category}
-                          </span>
-                          <span className="text-xs font-mono text-slate-500">{item.date}</span>
-                        </div>
-                        
-                        <div>
-                          <h3 className="font-poppins font-bold text-white text-base leading-tight">
-                            {item.title}
-                          </h3>
-                          <p className="text-slate-400 text-xs mt-0.5">{item.subtitle}</p>
-                        </div>
-
-                        <ul className="space-y-1.5 pt-2">
-                          {item.details.map((detail, i) => (
-                            <li key={i} className="flex items-start text-xs text-slate-400 leading-relaxed">
-                              <span className="mr-2 text-cyan-400 font-bold">•</span>
-                              <span>{detail}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <span className="font-poppins text-3xl sm:text-4xl lg:text-5xl font-light text-slate-600 hover:text-white transition-colors duration-350 tracking-tight">
+                    {item.year}
+                  </span>
                 </div>
-              )
-            })}
-          </div>
+
+                {/* Milestone details column */}
+                <div className="lg:col-span-9 pl-16 lg:pl-6 space-y-3">
+                  <div className="flex items-center space-x-3 font-mono">
+                    <span className="text-[10px] text-blue-500 font-bold uppercase tracking-wider">{item.category}</span>
+                    <span className="text-slate-800">|</span>
+                    <span className="text-[9px] text-[#F5F7FF] uppercase tracking-widest">{item.subtitle}</span>
+                  </div>
+
+                  <h3 className="font-poppins text-lg sm:text-xl font-black text-[#F5F7FF] uppercase tracking-tight">
+                    {item.title}
+                  </h3>
+
+                  <ul className="space-y-2 pt-2 border-t border-slate-950">
+                    {item.details.map((detail, i) => (
+                      <li key={i} className="flex items-start text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+                        <span className="text-blue-500 mr-2 font-bold select-none">•</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+              </div>
+            )
+          })}
         </div>
 
       </div>

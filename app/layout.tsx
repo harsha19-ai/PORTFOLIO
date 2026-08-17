@@ -7,6 +7,7 @@ import Footer from "@/components/Footer"
 import ScrollProgress from "@/components/ScrollProgress"
 import FloatingNav from "@/components/FloatingNav"
 import PageTransition from "@/components/PageTransition"
+import CustomCursor from "@/components/CustomCursor"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -47,8 +48,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth bg-slate-950 text-slate-100">
-      <body className={`${poppins.variable} ${inter.variable} font-sans antialiased bg-slate-950 text-slate-100 min-h-screen relative`}>
+    <html lang="en" className="scroll-smooth bg-[#05061A] text-slate-100">
+      <body className={`${poppins.variable} ${inter.variable} font-sans antialiased bg-[#05061A] text-slate-100 min-h-screen relative`}>
+        <CustomCursor />
         <ScrollProgress />
         <PageTransition />
         <Navigation />

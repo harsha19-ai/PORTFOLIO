@@ -1,15 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { ExternalLink, Github, Zap, ArrowLeft, Star, Code, X, ShieldAlert, Music, Cpu, Layers, BarChart4, ArrowRight, HeartPulse, Sparkles, Globe } from "lucide-react"
+import { ExternalLink, Github, X, Sparkles, Cpu, HeartPulse, Globe, ShieldAlert, Music, Layers, ArrowRight, ArrowLeft } from "lucide-react"
 
 const projects = [
   {
+    id: "01",
     title: "ARADHYA",
     subtitle: "AI-Powered Emotional & Behavioral Monitoring Assistant",
     description: "An AI-powered emotional and behavioral monitoring assistant. By parsing conversational inputs and logs, it evaluates mood trends, tracks behavioral patterns, and provides real-time positive feedback and stress-mitigation responses.",
-    imageClass: "from-rose-500 via-pink-600 to-red-500",
+    image: "/emotional-digital-experience.jpg",
     icon: Sparkles,
     tech: ["Python", "Flask", "React", "Hugging Face", "Transformers", "NLP", "NLTK"],
     architecture: "Flask API hosting fine-tuned RoBERTa sentiment classification models. Features stateful prompt-optimized LLM generation logic with user context mapping databases for continuous behavioral tracking.",
@@ -27,13 +29,13 @@ const projects = [
     ],
     github: "https://github.com/harsha19-ai",
     demo: "https://github.com/harsha19-ai",
-    highlighted: true,
   },
   {
-    title: "AI Chatbot for Department Management System",
+    id: "02",
+    title: "AI Chatbot for DMS",
     subtitle: "RAG-Based Intelligent Chatbot for Academic Queries",
     description: "An intelligent retrieval-augmented system designed to parse department files and answer student syllabus, calendar, and regulatory queries in real-time. It handles institutional policy lookups to bypass manual guidance queues.",
-    imageClass: "from-emerald-600 via-teal-700 to-cyan-500",
+    image: "/ai-neural-networks.jpg",
     icon: Cpu,
     tech: ["Flask", "MongoDB", "Sentence Transformers", "FAISS", "LLM", "RAG"],
     architecture: "PDF text parser chunking policy scripts. Sentence-Transformers maps chunks to embeddings stored in a FAISS index database. Queries extract top-k vectors, appending them into context logs for final LLM prompt completions.",
@@ -51,13 +53,13 @@ const projects = [
     ],
     github: "https://github.com/harsha19-ai",
     demo: "https://github.com/harsha19-ai",
-    highlighted: true,
   },
   {
+    id: "03",
     title: "HOPE",
-    subtitle: "AI-Powered Crowdfunding Platform connecting Beneficiaries & Donors",
+    subtitle: "AI-Powered Crowdfunding Platform",
     description: "An AI-powered crowdfunding platform connecting verified beneficiaries with donors. The system automates verification, categorizes fundraising requests using semantic AI algorithms, and streamlines donation matches to secure resource allocations.",
-    imageClass: "from-blue-600 via-teal-600 to-cyan-500",
+    image: "/web-development-interface.jpg",
     icon: HeartPulse,
     tech: ["Python", "Flask", "React", "MongoDB", "Vector Search", "AI Verification", "RAG"],
     architecture: "Flask microservice running semantic classification to filter incoming donation campaigns, utilizing similarity models to cross-reference verified documents and connect donors with verified local beneficiaries.",
@@ -75,13 +77,13 @@ const projects = [
     ],
     github: "https://github.com/harsha19-ai",
     demo: "https://github.com/harsha19-ai",
-    highlighted: true,
   },
   {
+    id: "04",
     title: "Portfolio Website",
     subtitle: "AI-Prompt Optimized Creative Developer Showcase",
     description: "A personal developer portfolio designed and built using optimized AI prompting techniques. Features a futuristic HUD command center, 3D rotating background constellation mesh, and rotating conic gradient border sweeps.",
-    imageClass: "from-purple-600 via-indigo-600 to-blue-500",
+    image: "/writing-blogging-content.jpg",
     icon: Globe,
     tech: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Prompt Engineering"],
     architecture: "Next.js AppRouter structure utilizing Turbopack compiling. Dynamic canvas renders coordinate telemetry data in real-time based on mouse coordinate values, optimized for fluid GPU rendering.",
@@ -99,36 +101,13 @@ const projects = [
     ],
     github: "https://github.com/harsha19-ai",
     demo: "https://github.com/harsha19-ai",
-    highlighted: true,
   },
   {
-    title: "AI Civic Issue Reporter",
-    subtitle: "Automated Civic Reporting & Categorization",
-    description: "An AI-powered civic engagement platform that enables citizens to report local infrastructure issues. The system automatically performs object classification, routes reports to the relevant municipal department based on semantic context, and provides automated status tracking updates.",
-    imageClass: "from-blue-600 via-indigo-700 to-cyan-500",
-    icon: ShieldAlert,
-    tech: ["React", "Next.js", "Python", "Flask", "Computer Vision", "AI", "YOLOv8"],
-    architecture: "Next.js frontend + Flask microservice running YOLOv8 object classifier. Automated routing system parsing location and issue types into targeted notification webhook payloads.",
-    features: [
-      "Image-based automated object detection & categorization",
-      "Dynamic routing based on semantic issue classifications",
-      "Interactive citizen dashboard with real-time status updates",
-      "Geo-location tagging and interactive map layout coordinates",
-    ],
-    challenges: "Handling variable lighting and image resolutions from citizen cameras. Resolved by implementing automated pre-processing layers (rescaling, contrast adjustments) and confidence threshold checks on the YOLO classifier.",
-    results: [
-      { metric: "Detection Confidence", value: "93.4%" },
-      { metric: "Routing Latency", value: "0.8s" },
-      { metric: "User Retention", value: "88%" },
-    ],
-    github: "https://github.com/harsha19-ai",
-    demo: "https://github.com/harsha19-ai",
-  },
-  {
+    id: "05",
     title: "KeySense AI",
     subtitle: "Real-time AI Music Signal Processing Assistant",
     description: "An intelligent digital music assistant that performs real-time audio analysis. By capturing live microphone inputs or audio streams, it extracts frequency features and instantly predicts musical keys, active chords, and progression pathways.",
-    imageClass: "from-purple-600 via-purple-800 to-pink-500",
+    image: "/professional-photography-editing.jpg",
     icon: Music,
     tech: ["Python", "FastAPI", "AI", "Librosa", "Signal Processing", "PyTorch"],
     architecture: "FastAPI WebSocket pipeline receiving continuous PCM audio chunks. Computes Constant-Q Transform (CQT) and chromagrams using Librosa, running predictions through a PyTorch CNN model in real-time.",
@@ -148,56 +127,36 @@ const projects = [
     demo: "https://github.com/harsha19-ai",
   },
   {
+    id: "06",
     title: "ShadowStack AI",
     subtitle: "CLIP Semantic Visual Search Engine",
     description: "A premium visual search application designed to fetch images based on semantic text queries. Instead of relying on manual file tagging, it computes mathematical alignments between text searches and image vectors.",
-    imageClass: "from-rose-600 via-orange-600 to-yellow-500",
+    image: "/ai-image-search-platform.jpg",
     icon: Layers,
     tech: ["Next.js", "React", "CLIP Models", "Vector Similarity", "Cloudinary"],
     architecture: "Images mapped to multi-dimensional CLIP visual embeddings. User query prompts get vectorized via CLIP text models. Vector cosine similarity search isolates matching keys, querying image files from Cloudinary storage.",
     features: [
       "Semantic image lookup resolving complex context queries",
       "Dual text-to-image and image-to-image similarity matching",
-      "High-speed image indexing with cached vector stores",
-      "Fully responsive gallery grid layout built in Next.js",
+      "Cloudinary storage integration with optimized responsive delivery hooks",
+      "High-speed cosine vector ranking algorithms",
     ],
-    challenges: "Ensuring visual embeddings load and execute fast within serverless API runtimes. Solved by decoupling embedding computation from standard web routing and deploying similarity lookups to a dedicated vector index.",
+    challenges: "Achieving fast visual searches when comparing large clusters of image vectors. Mitigated by converting float embeddings to half-precision vectors and pre-indexing coordinates.",
     results: [
-      { metric: "Search Speed", value: "0.24s" },
-      { metric: "Recall Accuracy", value: "94.2%" },
-      { metric: "Cached Hits", value: "99.8%" },
-    ],
-    github: "https://github.com/harsha19-ai",
-    demo: "https://shadowstack-search-image.vercel.app/",
-  },
-  {
-    title: "Product Review Analyzer",
-    subtitle: "NLP Sentiment Classification Dashboard",
-    description: "A semantic opinion mining platform designed for e-commerce. It ingests thousands of customer product reviews, performs syntactic parsing, and classifies customer comments into descriptive sentiment trends.",
-    imageClass: "from-cyan-600 via-blue-700 to-indigo-500",
-    icon: BarChart4,
-    tech: ["React", "Python", "Flask", "NLTK", "NLP", "Sentiment Analysis"],
-    architecture: "Flask endpoint ingesting textual comments. Runs NLTK preprocessing (lemmatization, tokenization, stop-word removal) and processes reviews using trained sentiment classification models to yield score trends.",
-    features: [
-      "Automated lemmatization and textual stop-word cleaning",
-      "Sentiment classification scoring (Positive, Neutral, Negative)",
-      "Interactive dashboard charts plotting rating distributions",
-      "Batch uploading files for large-scale feedback parsing",
-    ],
-    challenges: "Handling sarcastic comments and complex negations (e.g. 'not bad at all'). Mitigated by training bigram features and mapping dependency parser paths to flag negation structures.",
-    results: [
-      { metric: "F1 Classifier Score", value: "87.6%" },
-      { metric: "Parse Rate", value: "150/sec" },
-      { metric: "UI Speed Index", value: "0.9s" },
+      { metric: "Semantic Precision", value: "92%" },
+      { metric: "Cosine Search Delay", value: "<85ms" },
+      { metric: "Vector Dimensions", value: "512" },
     ],
     github: "https://github.com/harsha19-ai",
     demo: "https://github.com/harsha19-ai",
   },
 ]
 
+type ProjectType = typeof projects[0]
+
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false)
-  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -206,232 +165,146 @@ export default function Portfolio() {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget
     const rect = card.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    card.style.setProperty("--mouse-x", `${x}px`)
-    card.style.setProperty("--mouse-y", `${y}px`)
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    
+    // Shift elements in translate bounds
+    card.style.setProperty("--mouse-x", `${x * 16}px`)
+    card.style.setProperty("--mouse-y", `${y * 16}px`)
+  }
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget
+    card.style.setProperty("--mouse-x", `0px`)
+    card.style.setProperty("--mouse-y", `0px`)
   }
 
   return (
-    <section className="py-20 relative z-10 min-h-screen">
-      
-      {/* Project Detail Modal Overlay */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
-          <div className="bg-slate-900 border border-slate-800 w-full max-w-4xl max-h-[85vh] rounded-2xl overflow-hidden shadow-2xl relative flex flex-col animate-in fade-in zoom-in-95 duration-200">
-            
-            {/* Modal Header */}
-            <div className={`relative p-6 sm:p-8 bg-gradient-to-br ${selectedProject.imageClass} flex flex-col justify-end h-48 sm:h-56`}>
-              <div className="absolute inset-0 bg-slate-950/40" />
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-10 p-2 bg-slate-950/60 hover:bg-slate-900 border border-slate-800 rounded-full text-slate-300 hover:text-white transition-all duration-200"
-                aria-label="Close details"
-              >
-                <X size={20} />
-              </button>
-              
-              <div className="relative z-10 space-y-1">
-                <div className="flex items-center space-x-2">
-                  <h2 className="font-poppins text-2xl sm:text-3xl font-extrabold text-white">{selectedProject.title}</h2>
-                  {selectedProject.highlighted && (
-                    <span className="flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-yellow-500/20 border border-yellow-500/40 text-[10px] font-bold text-yellow-300 uppercase tracking-wider">
-                      <Star size={10} className="fill-yellow-300" />
-                      <span>Highlighted</span>
-                    </span>
-                  )}
-                </div>
-                <p className="text-slate-200 text-xs sm:text-sm font-medium">{selectedProject.subtitle}</p>
-              </div>
-            </div>
-
-            {/* Modal Scrollable Content */}
-            <div className="overflow-y-auto flex-1 p-6 sm:p-8 space-y-6 text-sm text-slate-300">
-              
-              {/* Overview */}
-              <div>
-                <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider mb-2">Project Overview</h3>
-                <p className="leading-relaxed text-slate-400">{selectedProject.description}</p>
-              </div>
-
-              {/* Architecture Schema */}
-              <div>
-                <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider mb-2">Technical Architecture</h3>
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 font-mono text-xs text-blue-400 leading-normal">
-                  {selectedProject.architecture}
-                </div>
-              </div>
-
-              {/* Features & Challenges Grid */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider mb-2">Key Implementations</h3>
-                  <ul className="space-y-1.5">
-                    {selectedProject.features.map((feature: string, i: number) => (
-                      <li key={i} className="flex items-start text-xs sm:text-sm text-slate-400">
-                        <span className="mr-2 text-cyan-400 font-bold">•</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider mb-2">Challenges faced</h3>
-                  <p className="text-slate-400 text-xs leading-relaxed italic bg-slate-950/40 p-4 rounded-xl border border-slate-900">
-                    "{selectedProject.challenges}"
-                  </p>
-                </div>
-              </div>
-
-              {/* Results & Metrics */}
-              <div>
-                <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider mb-3">Model Metrics & Results</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  {selectedProject.results.map((result: any, i: number) => (
-                    <div key={i} className="bg-slate-950 p-3 rounded-xl border border-slate-900 text-center">
-                      <div className="text-base sm:text-lg font-mono font-bold text-cyan-400">{result.value}</div>
-                      <div className="text-[10px] text-slate-500 uppercase tracking-wider mt-1">{result.metric}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex gap-4 pt-4 border-t border-slate-900">
-                <a
-                  href={selectedProject.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center space-x-2 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-medium text-xs sm:text-sm shadow-md"
-                >
-                  <ExternalLink size={16} />
-                  <span>Explore Demo</span>
-                </a>
-                <a
-                  href={selectedProject.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center space-x-2 py-2.5 bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-300 hover:text-white rounded-xl font-medium text-xs sm:text-sm"
-                >
-                  <Github size={16} />
-                  <span>GitHub Repository</span>
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="py-24 relative z-10 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
         
-        {/* Back Navigation */}
+        {/* Back Navigation Link (displays only in standalone page scope) */}
         <div
-          className={`mb-8 transition-all duration-700 ${mounted ? "reveal-up" : "opacity-0"}`}
+          className={`mb-12 transition-all duration-700 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
         >
           <Link
             href="/"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group"
+            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group font-mono text-xs uppercase tracking-wider"
           >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={18} />
+            <ArrowLeft className="mr-2 w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
             Back to Home
           </Link>
         </div>
 
-        {/* Header */}
-        <div
-          className={`text-center mb-16 transition-all duration-700 delay-100 ${mounted ? "reveal-up delay-100" : "opacity-0"}`}
-        >
-          <h1 className="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">
-            My{" "}
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-400 bg-clip-text text-transparent">
-              Portfolio
-            </span>
-          </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-4 rounded-full animate-pulse"></div>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            A showcase of production-ready AI applications, signal processors, retrieval agents, and NLP dashboards.
-          </p>
+        {/* Section Heading */}
+        <div className={`mb-24 transition-all duration-1000 ${mounted ? "reveal-up" : "opacity-0"}`}>
+          <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-2">
+            03 // SELECTED WORK
+          </span>
+          <h2 className="font-poppins text-4xl sm:text-6xl font-black text-[#F5F7FF] tracking-tight uppercase">
+            PROJECTS
+          </h2>
+          <div className="w-16 h-[2px] bg-blue-500 mt-4" />
         </div>
 
-        {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Alternating Asymmetric Project Compositions */}
+        <div className="space-y-36">
           {projects.map((project, idx) => {
+            const isEven = idx % 2 === 0
             const Icon = project.icon
+
             return (
               <div
-                key={project.title}
-                onClick={() => setSelectedProject(project)}
-                onMouseMove={handleMouseMove}
-                className={`group holo-border-card hud-brackets cursor-pointer flex flex-col h-full ${
+                key={project.id}
+                className={`grid lg:grid-cols-12 gap-12 items-center relative ${
                   mounted ? "reveal-up" : "opacity-0"
                 }`}
-                style={{ animationDelay: `${200 + idx * 100}ms` }}
+                style={{ animationDelay: `${idx * 150}ms` }}
               >
-                <div className="holo-border-card-inner flex flex-col h-full w-full">
-                  {/* Visual Top Mesh Area */}
-                  <div className={`h-40 bg-gradient-to-br ${project.imageClass} relative flex items-center justify-center overflow-hidden rounded-t-[1.25rem]`}>
-                    <div className="absolute inset-0 bg-slate-950/20" />
+                
+                {/* Visual Block Column */}
+                <div 
+                  className={`lg:col-span-6 relative ${isEven ? "lg:order-1" : "lg:order-2"}`}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <div 
+                    className="relative aspect-[16/10] overflow-hidden border border-slate-800 bg-slate-950 cursor-none group transition-all duration-500 hover:border-slate-600"
+                    data-cursor="view project"
+                  >
+                    {/* Shadow outline background */}
+                    <div className="absolute -inset-4 border border-slate-900 pointer-events-none z-0 transform translate-x-3 translate-y-3" />
                     
-                    {/* Subtle Grid backdrop overlay in the mesh */}
-                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                    <div 
+                      className="w-full h-full relative z-10 transition-transform duration-500 ease-out"
+                      style={{
+                        transform: "translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0) scale(1.05)"
+                      }}
+                    >
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-w-1024px) 100vw, 550px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#05061A]/60 via-transparent to-transparent" />
+                    </div>
 
-                    {/* Highlight tag */}
-                    {project.highlighted && (
-                      <div className="absolute top-3 left-3 z-10 flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-slate-950/80 border border-yellow-500/40 text-[9px] font-bold text-yellow-300 uppercase tracking-wider">
-                        <Star size={10} className="fill-yellow-300 text-yellow-300" />
-                        <span>Highlighted Project</span>
-                      </div>
-                    )}
-
-                    {/* Icon */}
-                    <div className="relative z-10 p-3 rounded-full bg-slate-950/30 backdrop-blur-md border border-white/10 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-8 h-8 text-white" />
+                    <div className="absolute bottom-4 left-4 z-20 font-mono text-[9px] text-[#F5F7FF] bg-[#05061A]/85 border border-slate-850 px-2 py-0.5 uppercase tracking-widest">
+                      {project.tech[0]} // {project.tech[1]}
                     </div>
                   </div>
+                </div>
 
-                  {/* Content Area */}
-                  <div className="p-5 flex-grow flex flex-col justify-between relative z-10">
-                    <div className="space-y-3">
-                      <h3 className="font-poppins text-lg font-bold text-white group-hover:text-cyan-400 transition-colors duration-200">
-                        {project.title}
-                      </h3>
-                      
-                      <p className="text-slate-400 text-xs sm:text-sm leading-relaxed line-clamp-3">
-                        {project.description}
-                      </p>
+                {/* Content Block Column */}
+                <div className={`lg:col-span-6 space-y-6 ${isEven ? "lg:order-2 lg:pl-6" : "lg:order-1 lg:pr-6"}`}>
+                  <div className="flex items-center space-x-3 font-mono">
+                    <span className="text-xs text-blue-500 font-bold">{project.id} //</span>
+                    <span className="text-[10px] text-slate-500 uppercase tracking-widest">CASE STUDY</span>
+                  </div>
 
-                      {/* Architecture Details summary */}
-                      <div className="space-y-1 pt-1.5">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                          System Architecture
-                        </div>
-                        <p className="text-slate-300 text-xs font-mono line-clamp-2 leading-relaxed bg-slate-950/50 p-2 rounded border border-slate-900/85">
-                          {project.architecture}
-                        </p>
-                      </div>
+                  <div className="space-y-2">
+                    <h3 
+                      className="font-poppins text-3xl sm:text-4xl font-extrabold text-[#F5F7FF] tracking-tight hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      {project.title}
+                    </h3>
+                    <p className="text-xs font-mono text-slate-500 uppercase tracking-wider">{project.subtitle}</p>
+                  </div>
 
-                      {/* Tech Badges */}
-                      <div className="flex flex-wrap gap-1.5 pt-2">
-                        {project.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-950 border border-slate-900 text-slate-400"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <p className="text-slate-400 text-sm sm:text-base leading-relaxed font-light">
+                    {project.description}
+                  </p>
 
-                    {/* Actions buttons */}
-                    <div className="mt-6 pt-4 border-t border-slate-900 flex justify-between items-center text-xs font-semibold text-cyan-400 group-hover:text-cyan-300 transition-colors">
-                      <span className="flex items-center space-x-1">
-                        <span>View Specifications</span>
-                        <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {project.tech.map((t) => (
+                      <span key={t} className="px-2.5 py-0.5 rounded-none text-[10px] font-mono bg-slate-900/60 border border-slate-850 text-slate-400 uppercase tracking-wider">
+                        {t}
                       </span>
-                    </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-4 flex items-center space-x-6">
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="inline-flex items-center text-xs font-mono font-bold text-white hover:text-blue-400 group/btn transition-colors duration-200"
+                    >
+                      SPECIFICATIONS
+                      <ArrowRight className="ml-1.5 w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                    
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-white transition-colors duration-200"
+                      aria-label="GitHub Repo"
+                    >
+                      <Github className="w-4.5 h-4.5" />
+                    </a>
                   </div>
                 </div>
 
@@ -441,6 +314,110 @@ export default function Portfolio() {
         </div>
 
       </div>
+
+      {/* Case Study Details Modal (Immersive Full Screen Overlay) */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[1000] flex justify-end bg-slate-950/90 backdrop-blur-sm pointer-events-auto">
+          {/* Backdrop Click Dismissal */}
+          <div className="absolute inset-0 cursor-none" onClick={() => setSelectedProject(null)} data-cursor="close" />
+
+          {/* Modal Container */}
+          <div className="relative w-full max-w-2xl bg-[#05061A] border-l border-slate-900 h-screen overflow-y-auto z-10 flex flex-col p-8 sm:p-12 font-mono">
+            
+            {/* Header / Dismissal */}
+            <div className="flex items-center justify-between border-b border-slate-900 pb-6 mb-8">
+              <div className="flex items-center space-x-3 text-xs text-blue-500 font-bold">
+                <span>{selectedProject.id} //</span>
+                <span className="text-slate-300 font-poppins font-black uppercase text-sm">{selectedProject.title}</span>
+              </div>
+              <button 
+                onClick={() => setSelectedProject(null)} 
+                className="p-2 border border-slate-900 text-slate-400 hover:text-white hover:border-slate-700 transition-all rounded-none"
+              >
+                <X className="w-4.5 h-4.5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="space-y-8 flex-grow">
+              
+              {/* Architecture Outline */}
+              <div className="space-y-3">
+                <span className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">
+                  System Architecture
+                </span>
+                <p className="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                  {selectedProject.architecture}
+                </p>
+              </div>
+
+              {/* Core Features */}
+              <div className="space-y-3">
+                <span className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">
+                  Key Specifications
+                </span>
+                <ul className="space-y-2">
+                  {selectedProject.features.map((feature, i) => (
+                    <li key={i} className="flex items-start text-xs text-slate-400 leading-normal font-light">
+                      <span className="text-blue-500 mr-2 font-bold">&gt;</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Challenges Faced */}
+              <div className="space-y-3">
+                <span className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">
+                  Engineering Challenge
+                </span>
+                <p className="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                  {selectedProject.challenges}
+                </p>
+              </div>
+
+              {/* Performance Metrics */}
+              {selectedProject.results && (
+                <div className="space-y-4">
+                  <span className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">
+                    Performance Telemetry
+                  </span>
+                  <div className="grid grid-cols-3 gap-4">
+                    {selectedProject.results.map((res, i) => (
+                      <div key={i} className="bg-slate-950 border border-slate-900/60 p-3 text-center">
+                        <div className="text-base sm:text-lg font-bold text-white mb-0.5">{res.value}</div>
+                        <div className="text-[8px] text-slate-500 uppercase tracking-wide leading-tight">{res.metric}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Footer / Links */}
+            <div className="border-t border-slate-900 pt-8 mt-12 flex justify-between gap-4">
+              <a
+                href={selectedProject.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-3 text-center border border-slate-800 text-xs font-mono text-slate-300 hover:text-white hover:border-slate-600 transition-colors"
+              >
+                GITHUB REPOSITORY
+              </a>
+              <a
+                href={selectedProject.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-3 text-center bg-blue-600 hover:bg-blue-500 text-xs font-mono text-white transition-colors"
+              >
+                LIVE TELEMETRY
+              </a>
+            </div>
+
+          </div>
+        </div>
+      )}
     </section>
   )
 }

@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Menu, X, Home, User, Zap, Briefcase, FolderOpen, Mail } from "lucide-react"
+import { Menu, X } from "lucide-react"
 
 const navItems = [
-  { name: "Home", href: "/", icon: Home },
-  { name: "About", href: "/about", icon: User },
-  { name: "Skills", href: "/skills", icon: Zap },
-  { name: "Services", href: "/services", icon: Briefcase },
-  { name: "Portfolio", href: "/portfolio", icon: FolderOpen },
-  { name: "Contact", href: "/contact", icon: Mail },
+  { name: "HOME", href: "/#home" },
+  { name: "ABOUT", href: "/#about" },
+  { name: "EXPERIENCE", href: "/#journey" },
+  { name: "PROJECTS", href: "/#projects" },
+  { name: "SKILLS", href: "/#skills" },
+  { name: "CONTACT", href: "/#contact" },
 ]
 
 export default function Navigation() {
@@ -31,79 +31,58 @@ export default function Navigation() {
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-slate-950/75 backdrop-blur-md border-b border-slate-900/60 shadow-xl shadow-black/10"
-          : "bg-transparent"
+          ? "bg-[#05061A]/85 backdrop-blur-md border-b border-slate-900/60 py-4"
+          : "bg-transparent py-6"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <Link href="/" className="group flex items-center space-x-2">
-            <div className="font-poppins font-bold text-xl text-white tracking-wide transition-all duration-300">
-              Harshavarthanar <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-cyan-300">KS</span>
-              <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"></div>
-            </div>
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
+        <div className="flex justify-between items-center">
+          
+          {/* Logo Name */}
+          <Link href="/#home" className="group" data-cursor="home">
+            <span className="font-mono text-xs sm:text-sm font-black text-[#F5F7FF] tracking-widest uppercase">
+              HARSHAVARTHANAR <span className="text-blue-500">KS</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`group relative px-4 py-2 rounded-lg transition-all duration-300 ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md shadow-blue-900/30"
-                      : "text-slate-300 hover:text-white hover:bg-slate-900/55"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2 relative z-10">
-                    <Icon size={16} />
-                    <span className="font-medium text-sm">{item.name}</span>
-                  </div>
-                  {!isActive && (
-                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  )}
-                </Link>
-              )
-            })}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="font-mono text-[10px] font-bold text-slate-400 hover:text-[#F5F7FF] transition-colors duration-200 tracking-widest uppercase relative py-1 group/item"
+              >
+                {item.name}
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-blue-500 transition-all duration-300 group-hover/item:w-full" />
+              </Link>
+            ))}
           </div>
 
-          {/* Mobile Navigation Button */}
+          {/* Mobile Navigation Trigger */}
           <button
-            className="md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-900 transition-colors duration-200"
+            className="md:hidden p-2 text-slate-300 hover:text-white transition-colors duration-200 cursor-none"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle navigation menu"
           >
-            {isOpen ? <X size={22} /> : <Menu size={22} />}
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
         {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden bg-slate-950/95 backdrop-blur-xl border-t border-slate-900 rounded-b-xl shadow-2xl">
-            <div className="px-2 pt-2 pb-4 space-y-1">
-              {navItems.map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                        : "text-slate-300 hover:text-white hover:bg-slate-900"
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Icon size={18} />
-                    <span className="font-medium text-sm">{item.name}</span>
-                  </Link>
-                )
-              })}
+          <div className="fixed inset-0 top-[73px] bg-[#05061A] z-40 md:hidden flex flex-col justify-center items-center px-6 animate-fade-in">
+            <div className="space-y-6 text-center">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="block font-poppins text-2xl font-black text-[#F5F7FF] hover:text-blue-400 transition-colors uppercase tracking-widest"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
         )}

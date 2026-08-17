@@ -2,19 +2,19 @@
 
 import { useEffect, useRef } from "react"
 
-interface GridPoint {
+interface Node3D {
   x: number
   y: number
   z: number
   baseX: number
   baseY: number
   baseZ: number
+  color: string
 }
 
 export default function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 })
-  const scrollRef = useRef(0)
+  const mouseRef = useRef({ x: 0, y: 0, px: 0, py: 0, targetX: 0, targetY: 0 })
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -26,17 +26,26 @@ export default function AnimatedBackground() {
     let width = (canvas.width = window.innerWidth)
     let height = (canvas.height = window.innerHeight)
 
-    // Generate thin grid coordinate nodes
-    const pointCount = 60
-    const points: GridPoint[] = []
-    const range = 700
+    // Generate 3D nodes
+    const nodeCount = 120
+    const nodes: Node3D[] = []
+    const range = 600 // Spreading distance in coordinates
 
-    for (let i = 0; i < pointCount; i++) {
+    for (let i = 0; i < nodeCount; i++) {
       const x = (Math.random() - 0.5) * range * 2
       const y = (Math.random() - 0.5) * range * 2
-      const z = Math.random() * range
-      points.push({ x, y, z, baseX: x, baseY: y, baseZ: z })
+      const z = (Math.random() - 0.5) * range * 2
+      
+      // Teal and violet color shades
+      const colors = ["rgba(6, 182, 212, 0.4)", "rgba(139, 92, 246, 0.4)", "rgba(59, 130, 246, 0.4)"]
+      const color = colors[Math.floor(Math.random() * colors.length)]
+
+      nodes.push({ x, y, z, baseX: x, baseY: y, baseZ: z, color })
     }
+
+    const focalLength = 400
+    let rotX = 0.001 // Rotation speed X
+    let rotY = 0.0015 // Rotation speed Y
 
     const handleResize = () => {
       if (!canvas) return
@@ -45,108 +54,122 @@ export default function AnimatedBackground() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse positions between -1 and 1
-      mouseRef.current.targetX = (e.clientX / window.innerWidth) * 2 - 1
-      mouseRef.current.targetY = (e.clientY / window.innerHeight) * 2 - 1
-    }
-
-    const handleScroll = () => {
-      scrollRef.current = window.scrollY
+      mouseRef.current.targetX = e.clientX
+      mouseRef.current.targetY = e.clientY
     }
 
     window.addEventListener("resize", handleResize)
     window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", handleScroll)
 
-    // Smooth values
-    let currentMouseX = 0
-    let currentMouseY = 0
-    let currentScroll = 0
-
+    // Main animation loop
     const animate = () => {
       if (!ctx || !canvas) return
-
-      // Redraw background
-      ctx.fillStyle = "#05061A"
+      ctx.fillStyle = "rgba(2, 6, 23, 0.25)" // Subtle trails
       ctx.fillRect(0, 0, width, height)
 
-      // Smooth interpolation for mouse and scroll coordinates
-      currentMouseX += (mouseRef.current.targetX - currentMouseX) * 0.08
-      currentMouseY += (mouseRef.current.targetY - currentMouseY) * 0.08
-      currentScroll += (scrollRef.current - currentScroll) * 0.08
+      // Smooth mouse interpolation
+      const mouse = mouseRef.current
+      mouse.x += (mouse.targetX - mouse.x) * 0.1
+      mouse.y += (mouse.targetY - mouse.y) * 0.1
 
       const centerX = width / 2
       const centerY = height / 2
 
-      // Draw subtle background perspective lines (Isometric grid projection)
-      ctx.strokeStyle = "rgba(245, 247, 255, 0.015)"
-      ctx.lineWidth = 1
+      // Slowly rotate overall grid system angles
+      rotX += 0.0002
+      rotY += 0.0003
 
-      const gridSpacing = 80
-      const gridRows = 24
-      const gridCols = 32
-      const tiltY = currentMouseY * 15
-      const tiltX = currentMouseX * 15
+      const cosX = Math.cos(rotX)
+      const sinX = Math.sin(rotX)
+      const cosY = Math.cos(rotY)
+      const sinY = Math.sin(rotY)
 
-      // Draw horizontal perspective guide lines
-      for (let i = -gridRows; i <= gridRows; i++) {
-        ctx.beginPath()
-        for (let j = -gridCols; j <= gridCols; j++) {
-          const rawX = j * gridSpacing
-          const rawY = i * gridSpacing - (currentScroll * 0.15)
-          const z = 400 + (tiltY * 5)
-          
-          // Project coordinates in 3D perspective
-          const scale = 500 / (500 + z)
-          const projX = centerX + (rawX + (tiltX * 10)) * scale
-          const projY = centerY + rawY * scale
+      const projectedNodes = nodes.map((node) => {
+        // Rotate around Y axis
+        let x1 = node.baseX * cosY - node.baseZ * sinY
+        let z1 = node.baseZ * cosY + node.baseX * sinY
 
-          if (j === -gridCols) ctx.moveTo(projX, projY)
-          else ctx.lineTo(projX, projY)
+        // Rotate around X axis
+        let y2 = node.baseY * cosX - z1 * sinX
+        let z2 = z1 * cosX + node.baseY * sinX
+
+        // Magnetic mouse force in 3D
+        const dx = mouse.x - centerX - x1
+        const dy = mouse.y - centerY - y2
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        
+        if (dist < 250) {
+          const force = (250 - dist) * 0.15
+          x1 += (dx / dist) * force
+          y2 += (dy / dist) * force
         }
-        ctx.stroke()
+
+        // Perspective projection
+        const scale = focalLength / (focalLength + z2)
+        const projX = x1 * scale + centerX
+        const projY = y2 * scale + centerY
+
+        return { projX, projY, scale, color: node.color, z: z2 }
+      })
+
+      // Draw connection lines
+      const maxDistance = 140
+      ctx.lineWidth = 0.5
+
+      for (let i = 0; i < projectedNodes.length; i++) {
+        const n1 = projectedNodes[i]
+        if (n1.projX < 0 || n1.projX > width || n1.projY < 0 || n1.projY > height) continue
+
+        for (let j = i + 1; j < projectedNodes.length; j++) {
+          const n2 = projectedNodes[j]
+          
+          const dx = n1.projX - n2.projX
+          const dy = n1.projY - n2.projY
+          const dist = Math.sqrt(dx * dx + dy * dy)
+
+          if (dist < maxDistance) {
+            // Fade lines out if they are far apart
+            const opacity = (1 - dist / maxDistance) * 0.18 * n1.scale * n2.scale
+            ctx.strokeStyle = `rgba(6, 182, 212, ${opacity})`
+            ctx.beginPath()
+            ctx.moveTo(n1.projX, n1.projY)
+            ctx.lineTo(n2.projX, n2.projY)
+            ctx.stroke()
+          }
+        }
       }
 
-      // Draw vertical perspective guide lines
-      for (let j = -gridCols; j <= gridCols; j++) {
+      // Draw node points
+      projectedNodes.forEach((n) => {
+        if (n.projX < 0 || n.projX > width || n.projY < 0 || n.projY > height) return
+
+        ctx.fillStyle = n.color
         ctx.beginPath()
-        for (let i = -gridRows; i <= gridRows; i++) {
-          const rawX = j * gridSpacing
-          const rawY = i * gridSpacing - (currentScroll * 0.15)
-          const z = 400 + (tiltY * 5)
-          
-          const scale = 500 / (500 + z)
-          const projX = centerX + (rawX + (tiltX * 10)) * scale
-          const projY = centerY + rawY * scale
+        // Size scales based on depth (z)
+        const radius = Math.max(1, 2.2 * n.scale)
+        ctx.arc(n.projX, n.projY, radius, 0, Math.PI * 2)
+        ctx.fill()
 
-          if (i === -gridRows) ctx.moveTo(projX, projY)
-          else ctx.lineTo(projX, projY)
-        }
-        ctx.stroke()
-      }
-
-      // Draw floating technical nodes (stars)
-      points.forEach((p) => {
-        // Move nodes slowly in Z axis
-        p.z -= 0.4
-        if (p.z <= 0) {
-          p.z = range
-        }
-
-        const scale = 400 / (400 + p.z)
-        const projX = centerX + (p.x + currentMouseX * 40) * scale
-        const projY = centerY + (p.y - currentScroll * 0.1) * scale
-
-        if (projX >= 0 && projX <= width && projY >= 0 && projY <= height) {
-          const opacity = (1 - p.z / range) * 0.35
-          ctx.fillStyle = `rgba(245, 247, 255, ${opacity})`
-          
-          // Render dot
+        // Highlight ring on hovered particles
+        const dx = mouse.x - n.projX
+        const dy = mouse.y - n.projY
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < 80) {
+          ctx.strokeStyle = `rgba(139, 92, 246, ${(1 - dist / 80) * 0.3})`
+          ctx.lineWidth = 0.5
           ctx.beginPath()
-          ctx.arc(projX, projY, Math.max(0.8, 1.5 * scale), 0, Math.PI * 2)
-          ctx.fill()
+          ctx.arc(n.projX, n.projY, radius * 3, 0, Math.PI * 2)
+          ctx.stroke()
         }
       })
+
+      // Dynamic digital data readouts at top/bottom corners (sci-fi HUD details)
+      ctx.fillStyle = "rgba(6, 182, 212, 0.15)"
+      ctx.font = "9px monospace"
+      ctx.fillText(`SYS.GRID.ACTIVE: ${nodeCount} NODES`, 20, 25)
+      ctx.fillText(`CURSOR.X: ${Math.round(mouse.x)} | Y: ${Math.round(mouse.y)}`, 20, 40)
+      ctx.fillText("MATRIX.TELEMETRY: SECURE", width - 180, 25)
+      ctx.fillText(`FPS: 60.00 | ZOOM: ${focalLength}`, width - 180, 40)
 
       animationFrameId = requestAnimationFrame(animate)
     }
@@ -156,7 +179,6 @@ export default function AnimatedBackground() {
     return () => {
       window.removeEventListener("resize", handleResize)
       window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
@@ -164,7 +186,7 @@ export default function AnimatedBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-0 bg-[#05061A]"
+      className="fixed inset-0 w-full h-full pointer-events-none z-0 bg-[#020617]"
     />
   )
 }

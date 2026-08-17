@@ -2,138 +2,231 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle } from "lucide-react"
+import { ArrowLeft, Brain, Cpu, Database, Layout, Terminal, Wrench, Cloud, CheckCircle } from "lucide-react"
 
 const skillCategories = [
   {
     id: "ai",
-    title: "AI TECHNOLOGY",
+    title: "AI Technology",
+    icon: Brain,
+    color: "text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
     skills: [
-      { name: "Prompt Engineering", desc: "Token weights, context optimization, & few-shot instructions sets" },
-      { name: "RAG Systems", desc: "Semantic retrieval, context synthesis & query translation routing" },
-      { name: "Sentence Transformers", desc: "Multi-dimensional textual embeddings mapping & mapping filters" },
-      { name: "FAISS Vector Search", desc: "Similarity index FlatL2/IP lookup pipelines" },
+      { name: "Prompt Engineering", desc: "Token weights, dynamic context & optimized QA templates" },
+      { name: "Retrieval-Augmented Generation (RAG)", desc: "Semantic retrieval, context synthesis" },
+      { name: "Sentence Transformers", desc: "Multi-dimensional textual embeddings mapping" },
+      { name: "FAISS", desc: "Facebook AI Similarity Search, index FlatL2/IP lookup" },
     ],
   },
   {
     id: "languages",
-    title: "LANGUAGES",
+    title: "Programming Languages",
+    icon: Terminal,
+    color: "text-indigo-400 border-indigo-500/20 bg-indigo-500/5",
     skills: [
-      { name: "Python", desc: "ML package tooling, API routing controllers, and system scripts" },
-      { name: "Java", desc: "Object-oriented software systems and algorithms design" },
-      { name: "C", desc: "Low-level memory management structures and computer parsing basics" },
-      { name: "JavaScript", desc: "Asynchronous client script modules and DOM interaction logic" },
+      { name: "Python", desc: "System scripting, ML packages, signal processing, APIs" },
+      { name: "Java", desc: "Object-oriented structures, algorithms, and application core design" },
+      { name: "C", desc: "Low-level memory management structures, computational parsing" },
+      { name: "JavaScript", desc: "DOM manipulation, asynchronous ES6+ script logic" },
     ],
   },
   {
-    id: "frameworks",
-    title: "WEB ARCHITECTURES",
+    id: "frontend",
+    title: "Frontend Development",
+    icon: Layout,
+    color: "text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
     skills: [
-      { name: "React & Next.js", desc: "Server components, client states, and Next.js routers" },
-      { name: "FastAPI & Flask", desc: "Async web server controllers and REST API microservices" },
-      { name: "Django", desc: "MVC databases operations, admin layers, and ORM pipelines" },
-      { name: "HTML & CSS", desc: "Tailwind templates, CSS flex/grid layout models, and semantic layouts" },
+      { name: "HTML & CSS", desc: "Semantic elements, responsive layouts, modern flex/grid models" },
+      { name: "JavaScript", desc: "Client side interaction logic and standard script modules" },
+      { name: "React & Next.js", desc: "Functional components, custom hooks, AppRouter architecture" },
+      { name: "Tailwind CSS", desc: "Utility styling structure, responsive layout styling" },
+    ],
+  },
+  {
+    id: "backend",
+    title: "Backend Development",
+    icon: Cpu,
+    color: "text-purple-400 border-purple-500/20 bg-purple-500/5",
+    skills: [
+      { name: "Flask", desc: "Microservices design, API endpoint controllers" },
+      { name: "FastAPI", desc: "Async request parsing, automated Swagger API docs" },
+      { name: "Django", desc: "Scalable MVC architectures, admin modules, ORM" },
+    ],
+  },
+  {
+    id: "databases",
+    title: "Database Stacks",
+    icon: Database,
+    color: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
+    skills: [
+      { name: "MongoDB", desc: "Document storage schema, vector search aggregation pipelines" },
+      { name: "MySQL", desc: "Relational tables structure, SQL queries, join mapping" },
     ],
   },
   {
     id: "tools",
-    title: "TOOLS & DATABASES",
+    title: "Tools & Utilities",
+    icon: Wrench,
+    color: "text-amber-400 border-amber-500/20 bg-amber-500/5",
     skills: [
-      { name: "Hugging Face", desc: "Transformers, tokenizer models, and models Hub hosting" },
-      { name: "Git & GitHub", desc: "Repository version branching and history logs tracking" },
-      { name: "Docker", desc: "Container configurations, containerization, and compose setups" },
-      { name: "MongoDB & MySQL", desc: "Relational tables and document collection schemes" },
-      { name: "Vercel & Render", desc: "Serverless web page pipelines hosting and cloud deployments" },
-      { name: "Loveable & Canva", desc: "Design drafts, vector visual assets, and prompt optimizations" },
+      { name: "Huggingface", desc: "Model repositories deployment, pre-trained transformer pipelines" },
+      { name: "GitHub", desc: "Version control branching, pull requests, project code history" },
+      { name: "Docker", desc: "Container configurations, containerization, compose setup" },
+      { name: "Vercel & Render", desc: "Serverless pipelines, PaaS hosting deployment" },
+      { name: "Loveable & Canva", desc: "Optimized prompt templates, creative assets design drafts" },
     ],
   },
 ]
 
 export default function Skills() {
   const [mounted, setMounted] = useState(false)
-  const [activeCategory, setActiveCategory] = useState("ai")
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const currentCategory = skillCategories.find(c => c.id === activeCategory) || skillCategories[0]
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    card.style.setProperty("--mouse-x", `${x}px`)
+    card.style.setProperty("--mouse-y", `${y}px`)
+  }
 
   return (
-    <section id="skills" className="py-24 relative z-10 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
+    <section className="py-20 relative z-10 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Back Navigation Link */}
+        {/* Back Navigation */}
         <div
-          className={`mb-12 transition-all duration-700 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+          className={`mb-8 transition-all duration-700 ${mounted ? "reveal-up" : "opacity-0"}`}
         >
           <Link
             href="/"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group font-mono text-xs uppercase tracking-wider"
+            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group"
           >
-            <ArrowLeft className="mr-2 w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={18} />
             Back to Home
           </Link>
         </div>
 
-        {/* Section Heading */}
-        <div className={`mb-20 transition-all duration-1000 ${mounted ? "reveal-up" : "opacity-0"}`}>
-          <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-2">
-            04 // THE TOOLKIT
-          </span>
-          <h2 className="font-poppins text-4xl sm:text-6xl font-black text-[#F5F7FF] tracking-tight uppercase">
-            TECH STACK
-          </h2>
-          <div className="w-16 h-[2px] bg-blue-500 mt-4" />
+        {/* Title */}
+        <div
+          className={`text-center mb-16 transition-all duration-700 delay-100 ${mounted ? "reveal-up delay-100" : "opacity-0"}`}
+        >
+          <h1 className="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">
+            Skills &{" "}
+            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              Expertise
+            </span>
+          </h1>
+          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-4 rounded-full animate-pulse"></div>
+          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            Structured skill categories highlighting my expertise in AI technology, programming languages, databases, and tooling.
+          </p>
         </div>
 
-        {/* Editorial Tab Layout */}
-        <div className={`grid lg:grid-cols-12 gap-12 border-t border-slate-900 pt-12 ${mounted ? "reveal-up" : "opacity-0"}`}>
-          
-          {/* Tab Categories Menu (Left Column) */}
-          <div className="lg:col-span-4 flex flex-col space-y-4">
-            {skillCategories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`py-3 text-left font-poppins text-lg font-black tracking-wide uppercase transition-all duration-300 border-l-2 pl-4 cursor-none ${
-                  activeCategory === category.id
-                    ? "border-blue-500 text-white font-black"
-                    : "border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-800"
-                }`}
-              >
-                {category.title}
-              </button>
-            ))}
-          </div>
+        {/* Interactive KPI counters */}
+        <div
+          className={`grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-16 transition-all duration-700 delay-200 ${mounted ? "reveal-up delay-200" : "opacity-0"}`}
+        >
+          {[
+            { label: "AI Frameworks & Techs", value: "4" },
+            { label: "Programming Languages", value: "4" },
+            { label: "Backend Frameworks", value: "3" },
+            { label: "Databases & Vector Stores", value: "2" },
+          ].map((kpi) => (
+            <div key={kpi.label} className="bg-slate-900/40 border border-slate-900 rounded-xl p-4 text-center">
+              <div className="text-2xl sm:text-3xl font-extrabold text-white mb-1">{kpi.value}</div>
+              <div className="text-slate-500 text-[11px] sm:text-xs uppercase tracking-wider">{kpi.label}</div>
+            </div>
+          ))}
+        </div>
 
-          {/* Tab Skills Display (Right Column) */}
-          <div className="lg:col-span-8 bg-[#070924]/20 border border-slate-900 p-8 sm:p-12 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:15px_15px] pointer-events-none" />
-            
-            <div className="relative z-10 space-y-8 animate-fade-in">
-              <h3 className="font-mono text-xs text-blue-500 font-bold tracking-widest uppercase">
-                // {currentCategory.title} UTILITIES
-              </h3>
-              
-              <div className="grid sm:grid-cols-2 gap-8">
-                {currentCategory.skills.map((skill) => (
-                  <div key={skill.name} className="space-y-2 group">
-                    <div className="flex items-center space-x-2.5">
-                      <CheckCircle className="w-4 h-4 text-blue-400/70 group-hover:text-blue-400 transition-colors" />
-                      <h4 className="font-poppins text-sm sm:text-base font-bold text-white group-hover:translate-x-1 transition-transform duration-300">
-                        {skill.name}
-                      </h4>
-                    </div>
-                    <p className="text-slate-500 text-xs leading-relaxed font-light pl-6">
-                      {skill.desc}
-                    </p>
+        {/* Categories Grid */}
+        <div className="space-y-10">
+          {skillCategories.map((category, idx) => {
+            const Icon = category.icon
+            const isHovered = hoveredCategory === category.id
+
+            return (
+              <div
+                key={category.id}
+                onMouseEnter={() => setHoveredCategory(category.id)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                className={`relative rounded-2xl border border-slate-900 bg-slate-900/10 p-6 sm:p-8 transition-all duration-300 ${
+                  isHovered ? "border-slate-800/80 bg-slate-900/20" : ""
+                } ${mounted ? "reveal-up" : "opacity-0"}`}
+                style={{ animationDelay: `${150 + idx * 75}ms` }}
+              >
+                
+                {/* Category Header */}
+                <div className="flex items-center space-x-3 mb-6 relative z-10">
+                  <div className={`p-2.5 rounded-xl border ${category.color}`}>
+                    <Icon className="w-5 h-5" />
                   </div>
-                ))}
+                  <h2 className="font-poppins text-lg sm:text-xl font-bold text-white">
+                    {category.title}
+                  </h2>
+                </div>
+
+                {/* Skills Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+                  {category.skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      onMouseMove={handleMouseMove}
+                      className="group/card holo-border-card hud-brackets rounded-xl overflow-hidden"
+                    >
+                      <div className="holo-border-card-inner p-4 w-full h-full flex flex-col justify-between">
+                        <div className="flex items-start space-x-2.5 relative z-10">
+                          <CheckCircle className="w-4 h-4 text-cyan-400/80 shrink-0 mt-0.5" />
+                          <div>
+                            <h3 className="text-xs sm:text-sm font-bold text-slate-100 group-hover/card:text-cyan-400 transition-colors duration-200">
+                              {skill.name}
+                            </h3>
+                            <p className="text-slate-500 text-[11px] sm:text-xs mt-1 leading-normal">
+                              {skill.desc}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
               </div>
+            )
+          })}
+        </div>
+
+        {/* CTA */}
+        <div
+          className={`text-center mt-16 transition-all duration-700 delay-500 ${mounted ? "reveal-up delay-400" : "opacity-0"}`}
+        >
+          <div className="bg-gradient-to-r from-blue-950/20 via-purple-950/20 to-slate-950 rounded-2xl p-8 max-w-4xl mx-auto border border-slate-900">
+            <h3 className="font-poppins text-xl font-bold text-white mb-2">
+              Need a Custom AI Integration Pipeline?
+            </h3>
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 max-w-xl mx-auto">
+              I can orchestrate, refine, and deploy robust retrieval search agents, prompt optimizations, and full-stack solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:scale-[1.02]"
+              >
+                Start a Project
+              </Link>
+              <Link
+                href="/portfolio"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white rounded-xl font-medium hover:bg-slate-900/60 transition-colors duration-200"
+              >
+                View My Work
+              </Link>
             </div>
           </div>
-
         </div>
 
       </div>

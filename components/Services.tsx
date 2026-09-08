@@ -56,25 +56,28 @@ export default function Services() {
         
         {/* Back Navigation */}
         <div
-          className={`mb-8 transition-all duration-700 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+          className={`mb-8 transition-all duration-700 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
           <Link
             href="/"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group"
+            className="inline-flex items-center text-xs font-syne font-bold uppercase tracking-widest text-white/70 hover:text-[#ff3e00] transition-colors duration-200 group"
           >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={18} />
-            Back to Home
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={16} />
+            Back to Base
           </Link>
         </div>
 
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          className={`mb-16 transition-all duration-700 delay-100 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
-          <h2 className="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">Services Offered</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 rounded-full"></div>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Specialized engineering solutions to integrate intelligence interfaces into production systems.
+          <div className="viscera-tag mb-2">// 003 — CAPABILITIES & SOLUTIONS</div>
+          <h2 className="font-syne text-4xl sm:text-6xl font-extrabold text-white uppercase tracking-tight mb-4">
+            SERVICES <span className="text-[#ff3e00]">OFFERED</span>
+          </h2>
+          <div className="w-16 h-[2px] bg-[#ff3e00] mb-4"></div>
+          <p className="text-white/60 max-w-2xl text-sm sm:text-base leading-relaxed">
+            Specialized engineering solutions to integrate intelligence interfaces, RAG semantic search, and prompt optimization into production systems.
           </p>
         </div>
 

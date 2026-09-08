@@ -100,30 +100,31 @@ export default function Skills() {
         
         {/* Back Navigation */}
         <div
-          className={`mb-8 transition-all duration-700 ${mounted ? "reveal-up" : "opacity-0"}`}
+          className={`mb-8 transition-all duration-700 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
           <Link
             href="/"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group"
+            className="inline-flex items-center text-xs font-syne font-bold uppercase tracking-widest text-white/70 hover:text-[#ff3e00] transition-colors duration-200 group"
           >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={18} />
-            Back to Home
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={16} />
+            Back to Base
           </Link>
         </div>
 
         {/* Title */}
         <div
-          className={`text-center mb-16 transition-all duration-700 delay-100 ${mounted ? "reveal-up delay-100" : "opacity-0"}`}
+          className={`mb-16 transition-all duration-700 delay-100 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
-          <h1 className="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">
-            Skills &{" "}
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Expertise
+          <div className="viscera-tag mb-2">// 004 — TECHNICAL ARSENAL</div>
+          <h1 className="font-syne text-4xl sm:text-6xl font-extrabold text-white uppercase tracking-tight mb-4">
+            SYSTEM{" "}
+            <span className="text-[#ff3e00]">
+              STACKS
             </span>
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-4 rounded-full animate-pulse"></div>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Structured skill categories highlighting my expertise in AI technology, programming languages, databases, and tooling.
+          <div className="w-16 h-[2px] bg-[#ff3e00] mb-4"></div>
+          <p className="text-white/60 max-w-2xl text-sm sm:text-base leading-relaxed">
+            Detailed breakdown of production AI technologies, prompt engineering patterns, vector search stores, backend controllers, and deployment utilities.
           </p>
         </div>
 

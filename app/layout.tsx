@@ -1,43 +1,50 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Poppins, Inter } from "next/font/google"
+import { Syne, Inter } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/Navigation"
 import Footer from "@/components/Footer"
 import ScrollProgress from "@/components/ScrollProgress"
-import FloatingNav from "@/components/FloatingNav"
 import PageTransition from "@/components/PageTransition"
 
-const poppins = Poppins({
+const syne = Syne({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-syne",
   display: "swap",
 })
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "Harshavarthanar KS - AI Engineer | Prompt Engineer | Full Stack Developer",
+  title: "HARSHAVARTHANAR KS — AI ENGINEER & ARCHITECT",
   description:
-    "Expert AI Engineer specializing in Large Language Models, Prompt Engineering, Retrieval-Augmented Generation (RAG), Computer Vision, and Full Stack Development. Building intelligent, production-ready systems.",
-  keywords:
-    "AI Engineer, Prompt Engineer, Large Language Models, LLM, RAG, Retrieval-Augmented Generation, Computer Vision, NLP, Full Stack Developer, Next.js, FastAPI, Python, Harshavarthanar KS",
+    "Visceral AI systems. Technical precision. Specializing in LLM orchestration, RAG pipelines, prompt engineering, and high-performance full-stack architectures.",
+  keywords: [
+    "Harshavarthanar KS",
+    "AI Engineer",
+    "Prompt Engineer",
+    "RAG",
+    "LLM",
+    "FAISS",
+    "FastAPI",
+    "Python",
+    "Full Stack",
+    "Portfolio",
+  ],
   authors: [{ name: "Harshavarthanar KS" }],
-  openGraph: {
-    title: "Harshavarthanar KS - AI Engineer Portfolio",
-    description: "Professional portfolio of Harshavarthanar KS, an AI Engineer building real-world intelligent systems.",
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Harshavarthanar KS - AI Engineer Portfolio",
-    description: "Professional portfolio of Harshavarthanar KS, an AI Engineer building real-world intelligent systems.",
+  icons: {
+    icon: [
+      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
   },
 }
 
@@ -47,8 +54,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth bg-slate-950 text-slate-100">
-      <body className={`${poppins.variable} ${inter.variable} font-sans antialiased bg-slate-950 text-slate-100 min-h-screen relative`}>
+    <html lang="en" className="scroll-smooth bg-[#0e0e0e] text-[#ffffff]">
+      <body
+        className={`${syne.variable} ${inter.variable} antialiased bg-[#0e0e0e] text-[#ffffff] min-h-screen relative selection:bg-[#ff3e00] selection:text-white`}
+      >
         <ScrollProgress />
         <PageTransition />
         <Navigation />
@@ -56,7 +65,6 @@ export default function RootLayout({
           <div className="flex-grow">{children}</div>
           <Footer />
         </div>
-        <FloatingNav />
       </body>
     </html>
   )

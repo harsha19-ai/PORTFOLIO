@@ -109,28 +109,28 @@ ${formData.message}
         
         {/* Back Navigation */}
         <div
-          className={`mb-8 transition-all duration-700 ${mounted ? "reveal-up" : "opacity-0"}`}
+          className={`mb-8 transition-all duration-700 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
           <Link
             href="/"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 group"
+            className="inline-flex items-center text-xs font-syne font-bold uppercase tracking-widest text-white/70 hover:text-[#ff3e00] transition-colors duration-200 group"
           >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={18} />
-            Back to Home
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" size={16} />
+            Back to Base
           </Link>
         </div>
 
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 delay-100 ${mounted ? "reveal-up delay-100" : "opacity-0"}`}
+          className={`mb-16 transition-all duration-700 delay-100 ${mounted ? "opacity-100" : "opacity-0"}`}
         >
-          <h1 className="font-poppins text-4xl sm:text-5xl font-bold text-white mb-4">
-            Get In{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Touch</span>
+          <div className="viscera-tag mb-2">// 005 — INITIATION & INQUIRY</div>
+          <h1 className="font-syne text-4xl sm:text-6xl font-extrabold text-white uppercase tracking-tight mb-4">
+            GET IN <span className="text-[#ff3e00]">TOUCH</span>
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 rounded-full"></div>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Let's discuss how we can integrate predictive models, LLM pipelines, or full stack systems into your workflows.
+          <div className="w-16 h-[2px] bg-[#ff3e00] mb-4"></div>
+          <p className="text-white/60 max-w-2xl text-sm sm:text-base leading-relaxed">
+            Let&apos;s discuss how we can engineer predictive models, RAG vector pipelines, or modern full-stack web architectures into your projects.
           </p>
         </div>
 

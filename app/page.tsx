@@ -168,6 +168,9 @@ export default function Home() {
 
         {/* Monumental Layered Parallax Typography */}
         <div className="hero-title-container viscera-container select-none">
+          <h1 className="sr-only">
+            Harshavarthanar KS — AI Systems Specialist, Prompt Engineer & Full Stack Developer Portfolio
+          </h1>
           <span className="huge-type parallax-text text-white drop-shadow-2xl" data-speed="-1.8">
             HARSHA
           </span>
